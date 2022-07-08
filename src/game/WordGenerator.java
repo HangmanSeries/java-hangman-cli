@@ -11,7 +11,7 @@ public class WordGenerator {
 	public String category;
 	private ArrayList<String> links;
 	private ArrayList<String> categories;
-	int max_gen_index;
+	public int max_gen_index;
 	
 	public WordGenerator(int max_gen_index) {
 		this.setWord("");

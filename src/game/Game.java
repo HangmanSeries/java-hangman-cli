@@ -1,7 +1,6 @@
 package game;
 
 import java.util.Scanner;
-import game.WordGenerator;
 public class Game {
 	private String word;
 
@@ -32,7 +31,7 @@ public class Game {
 			System.out.println("Category: " + category);
 			String input = inputLetter(scan);
 			if (!input.matches("exit")) {
-				input = input.trim().substring(0,1);
+				input = input.substring(0,1);
 				this.lives += checkLetter(input, this.word, this.guesses, this.mistakes);
 				this.guesses = updateGuesses(input, this.word, this.guesses);
 				this.mistakes = updateMistakes(input, this.word, this.mistakes);
@@ -54,19 +53,13 @@ public class Game {
 		System.out.print("Input letter: ");
 		String letter = " ";
 		while(true) {
-			letter = scan.nextLine().trim();
-		    if (letter.matches("[A-Za-z]*")) {
-		    	break;
+			letter = scan.nextLine();
+		    if (letter.matches("[A-Za-z]+")) {
+				return letter;
 		    } else {
-		    	System.out.println("Please input a letter: ");
+		    	System.out.print("Please input a letter: ");
 		    }
 		}
-		return letter;
-	}
-	public static int checkLetter(String input, String text) {
-		if (text.contains(input))
-			return 0;
-		return -1;
 	}
 	public static int checkLetter(String input, String word, String guesses, String mistakes) {
 		String s = input;
@@ -74,9 +67,14 @@ public class Game {
 			return 0;
 		return -1;
 	}
+	public static boolean checkLetter(String input, String text) {
+		if (text.contains(input.substring(0,1)))
+			return true;
+		return false;
+	}
 	public static String updateGuesses(String input, String word, String guesses) {
-		if (checkLetter(input,word)==0) {
-			if (checkLetter(input,guesses)==-1)
+		if (checkLetter(input,word)==true) {
+			if (checkLetter(input,guesses)==false)
 				guesses += input.trim();
 			else System.out.println("--> Letter already tried");
 		}
@@ -88,8 +86,8 @@ public class Game {
 		return output;
 	}
 	public static String updateMistakes(String input, String word, String mistakes) {
-		if (checkLetter(input,word)==-1) {
-			if (checkLetter(input,mistakes)==-1) {
+		if (checkLetter(input,word)==false) {
+			if (checkLetter(input,mistakes)==false) {
 				mistakes += input + " ";
 				System.out.println("--> Wrong Guess");
 			}
